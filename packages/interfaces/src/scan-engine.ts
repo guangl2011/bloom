@@ -15,8 +15,9 @@
 export type ScanEngineId = 'obvious' | 'deepline'
 
 export interface ScanQuery {
-  keywords: string[]
-  regions: string[]
+  /** Scan inputs are read-only everywhere — engines never mutate their query. */
+  keywords: readonly string[]
+  regions: readonly string[]
   maxResults?: number
 }
 
