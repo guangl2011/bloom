@@ -1,0 +1,18 @@
+name: Spec changelog lint
+
+on:
+  pull_request:
+    paths:
+      - 'docs/spec/**'
+      - 'scripts/check-spec-changelog.sh'
+      - '.github/workflows/spec-changelog.yml'
+
+jobs:
+  spec-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check spec changes have a CHANGELOG entry
+        run: bash scripts/check-spec-changelog.sh "origin/${{ github.base_ref }}"
