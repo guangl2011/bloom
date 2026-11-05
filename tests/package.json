@@ -1,0 +1,20 @@
+{
+  "name": "@bloom/integration-tests",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bloom/adapter-scan-engine": "workspace:*",
+    "@bloom/interfaces": "workspace:*",
+    "@bloom/svc-agents": "workspace:*",
+    "@bloom/svc-config": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0"
+  }
+}
