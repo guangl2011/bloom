@@ -18,6 +18,10 @@
     "smoke": "bash tests/e2e/smoke.sh"
   },
   "devDependencies": {
+    "@bloom/adapter-crm": "workspace:*",
+    "@bloom/adapter-email": "workspace:*",
+    "@bloom/interfaces": "workspace:*",
+    "@bloom/svc-approval": "workspace:*",
     "@types/node": "^22.0.0",
     "eslint": "^9.0.0",
     "tsx": "^4.19.0",
