@@ -1,9 +1,9 @@
-import { loadCredits } from '../../lib/data'
+import { creditsForPage } from '../../lib/data'
 import { CreditsView } from '../../components/CreditsView'
 import { SourceNote } from '../../components/ui'
 
-export default function CreditsPage() {
-  const { credits, source } = loadCredits()
+export default async function CreditsPage() {
+  const { credits, source } = await creditsForPage()
   return (
     <main data-view="credits">
       <div className="page-header">

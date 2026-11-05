@@ -1,0 +1,318 @@
+version: 1
+customer: display-factory-wholesale
+package: lead_generation_pro
+workflow:
+  market_intel:
+    seed:
+      name: Display Factory Wholesale
+      website: https://www.displayfactory.example
+      export_history: 12 years exporting; overseas sales are 60% of revenue
+      current_markets:
+        - Germany
+        - United States
+        - Australia
+    focus:
+      pain_points: Cannot tell which overseas buyers are actively purchasing now; rely on trade fairs for leads
+      growth_goals: Enter the Nordics and Benelux in 2026; add 3 distributor partners; double inquiry volume
+      expansion_plan: Nordics and Benelux first (2026 H1), then central Europe
+      competitor_differentiators: We own the factory (no trading-company margin); CE+UL both covered
+      win_loss: We win on price and customization; we lose when buyers need local installation services
+    keywords:
+      monitor:
+        - supermarket shelving supplier
+        - retail display racks import
+        - shopfitting tender
+        - LED display stand wholesale
+        - store fixture distributor Europe
+        - pegboard display manufacturer
+      brand:
+        - DFW Displays
+        - Display Factory Wholesale
+    schedule: 0 6 1 * *
+    schedule_source: monthly
+  lead_scoring:
+    tuning:
+      business_type: manufacturer
+      product_categories:
+        - retail display racks
+        - supermarket shelving
+        - LED display stands
+      certifications:
+        - CE
+        - UL
+        - FSC
+      price_band: USD 40 - 900 per unit FOB Ningbo
+      moq: 50 units per SKU
+      customization: OEM/ODM available; logo and color customization from 200 units
+      customer_size: 50-500 employees; EUR 10M-500M revenue
+      decision_roles:
+        - purchasing director
+        - category manager
+        - store development manager
+      icp_description: European retail-equipment wholesalers and retail chains with 50-500 locations purchasing display fixtures in container volumes
+      criteria_a: "Buys display fixtures in 1+ containers per quarter (strong fit: direct factory buyer)"
+      criteria_b: Distributor purchasing LCL volumes or first-time container trial (moderate fit)
+      criteria_c: Single-store retailers or buyers of finished shop interiors (weak fit)
+      weights: purchase volume 40%, role seniority 30%, market match 20%, certifications 10%
+    monthly_quota: 50
+    model: internal_v1
+    tiers:
+      A: ">=0.8"
+      B: 0.5-0.8
+      C: 0.3-0.5
+  regional_analysis:
+    export_history: 12 years exporting; overseas sales are 60% of revenue
+    industries:
+      - retail chains
+      - supermarket equipment distributors
+      - shopfitting wholesalers
+    regions:
+      - Germany
+      - Netherlands
+      - Sweden
+      - Poland
+    expansion_plan: Nordics and Benelux first (2026 H1), then central Europe
+    dimensions:
+      - competitor pricing posture
+      - retail format trends
+      - import regulations
+  market_map:
+    current_markets:
+      - Germany
+      - United States
+      - Australia
+    sales_channels:
+      - Alibaba storefront
+      - Canton Fair
+      - overseas distributors
+    product_categories:
+      - retail display racks
+      - supermarket shelving
+      - LED display stands
+    hero_products:
+      - Modular pegboard display rack DB-200
+      - LED-lit counter stand DB-450
+    industries:
+      - retail chains
+      - supermarket equipment distributors
+      - shopfitting wholesalers
+    regions:
+      - Germany
+      - Netherlands
+      - Sweden
+      - Poland
+    competitors:
+      - Shelf Masters GmbH
+      - EuroDisplay SpA
+      - RackWave BV
+      - 中山市汇泰货架
+    substitutes:
+      - local sheet-metal fabricators
+      - secondhand fixture resellers
+  outreach:
+    channel_plan:
+      channels:
+        - Alibaba storefront
+        - Canton Fair
+        - overseas distributors
+    email_adapter:
+      existing: Excel order tracker + WeCom; no CRM in use yet
+    talking_points:
+      customization: OEM/ODM available; logo and color customization from 200 units
+      hero_products:
+        - Modular pegboard display rack DB-200
+        - LED-lit counter stand DB-450
+      win_loss: We win on price and customization; we lose when buyers need local installation services
+    mode: approval_gated_send
+    mode_source: approval_required
+    daily_send_cap: 100
+  purchase_signals:
+    query_terms:
+      hs_codes:
+        - "9403.20"
+        - "9403.60"
+        - "8531.20"
+      monitor:
+        - supermarket shelving supplier
+        - retail display racks import
+        - shopfitting tender
+        - LED display stand wholesale
+        - store fixture distributor Europe
+        - pegboard display manufacturer
+    seasonality_note: Peak orders March-May for Q4 retail season; holiday displays spike July-August
+    scope:
+      regions:
+        - Germany
+        - Netherlands
+        - Sweden
+        - Poland
+    filters:
+      industry_exclusions:
+        - auction resellers
+        - dropshipping-only stores
+        - companies under sanctions
+      exclusions:
+        - secondhand
+        - DIY
+        - home furniture
+      noise_examples: Generic retail news without purchasing intent; job ads for store staff
+    intent_phrases:
+      phrases:
+        - looking for supplier
+        - request for quotation
+        - RFQ shelving
+        - sourcing display racks
+        - supplier needed
+    channels:
+      - web
+      - news
+      - tenders
+      - trade shows
+    schedule: 0 6 * * 1
+    schedule_source: weekly
+    max_signals_per_period: 50
+    engine:
+      primary: obvious
+      fallback: deepline
+  lead:
+    enrichment:
+      certifications:
+        - CE
+        - UL
+        - FSC
+      moq: 50 units per SKU
+      contact_roles:
+        - purchasing director
+        - head of procurement
+        - category manager
+    discovery:
+      industries:
+        - retail chains
+        - supermarket equipment distributors
+        - shopfitting wholesalers
+      filters:
+        exclusions:
+          - auction resellers
+          - dropshipping-only stores
+          - companies under sanctions
+        size_thresholds: 50-500 employees ideal; under 20 disqualify unless chain HQ
+        geographic_limits: EU/EEA + UK + Switzerland only
+        disqualifiers:
+          - sanctioned countries
+          - auction/dropship resellers
+          - under 20 employees
+        compliance_limits:
+          - GDPR - no personal data beyond business contact roles
+          - no scraped private emails
+    contact_roles:
+      - purchasing director
+      - category manager
+      - store development manager
+    tiering:
+      criteria_a: "Buys display fixtures in 1+ containers per quarter (strong fit: direct factory buyer)"
+      criteria_b: Distributor purchasing LCL volumes or first-time container trial (moderate fit)
+      criteria_c: Single-store retailers or buyers of finished shop interiors (weak fit)
+    pool_schema:
+      required_fields:
+        - company name
+        - website
+        - country
+        - contact name
+        - role
+        - email
+        - match rationale
+        - tier
+  competitor_tracking:
+    competitors:
+      - Shelf Masters GmbH
+      - EuroDisplay SpA
+      - RackWave BV
+      - 中山市汇泰货架
+    scope:
+      focus:
+        - new product launches
+        - pricing changes
+        - trade fair presence
+        - hiring spikes
+    substitutes:
+      - local sheet-metal fabricators
+      - secondhand fixture resellers
+    keywords:
+      brand:
+        - DFW Displays
+        - Display Factory Wholesale
+      competitor:
+        - Shelf Masters
+        - EuroDisplay
+        - RackWave
+    schedule: 0 6 1 * *
+    schedule_source: monthly
+  freeform_notes: Sales lead prefers WeChat for urgent approvals; email otherwise
+approval:
+  approvers:
+    contacts:
+      - Li Wei <liwei@example.com> (primary)
+      - Chen Mei <chenmei@example.com> (backup)
+    emails:
+      - liwei@example.com
+      - chenmei@example.com
+  channels: email; WeChat for urgent
+  sla: within 1 business day
+  gate_actions:
+    - email_send
+    - crm_write
+    - ad_budget_change
+    - bulk_scan
+    - large_export
+    - high_cost_model_call
+    - connect_customer_production
+agent_roster:
+  - revenue-intelligence
+  - icp
+  - lead
+  - outreach
+  - ad
+  - conversion
+knowledge_base:
+  name: Display Factory Wholesale
+  brand: DFW Displays
+  website: https://www.displayfactory.example
+  hq_address: No. 88 Industrial Avenue, Yinzhou District, Ningbo, Zhejiang, China
+  branches:
+    - Ningbo HQ
+    - Guangzhou showroom
+  year_founded: "2009"
+  employee_count: "180"
+  revenue_band: USD 20M - 50M
+  production_location: Ningbo, Zhejiang (own factory 12,000 sqm)
+  logistics: FOB Ningbo preferred; sea freight LCL/FCL; lead time 25-35 days
+crm:
+  adapter:
+    existing_systems: Excel order tracker + WeCom; no CRM in use yet
+    system: none currently; plan to adopt HubSpot in 2026
+compliance:
+  limits:
+    - GDPR - no personal data beyond business contact roles
+    - no scraped private emails
+report:
+  generation:
+    languages:
+      - zh
+      - en
+delivery:
+  contact_routing:
+    - 销售总监：销售总监 Li Wei (liwei@example.com)
+    - 海外市场部：Chen Mei (chenmei@example.com)
+  signal_routing: email digest to sales lead; flagged in monthly report
+  recipient_list:
+    raw: Li Wei <liwei@example.com>; Chen Mei <chenmei@example.com>
+    emails:
+      - liwei@example.com
+      - chenmei@example.com
+  acceptance_criteria: Every A-tier lead carries contact info + one-line match rationale; signals link to sources
+ads:
+  adapters:
+    accounts: Google Ads account active since 2023; no LinkedIn account yet
+  platforms:
+    - google
+    - linkedin

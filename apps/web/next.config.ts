@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   // Workspace packages export TS sources; without transpiling, the standalone
   // server would try to require .ts files at runtime.
-  transpilePackages: ['@bloom/interfaces'],
+  transpilePackages: ['@bloom/interfaces', '@bloom/db', '@bloom/svc-approval'],
 }
 
 export default nextConfig

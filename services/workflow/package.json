@@ -3,12 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./runs-pg": "./src/runs-pg.ts"
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@bloom/db": "workspace:*",
+    "@bloom/interfaces": "workspace:*",
     "@bloom/service-kit": "workspace:*",
     "tsx": "^4.19.0"
   },

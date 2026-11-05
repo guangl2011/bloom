@@ -38,6 +38,24 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    services:
+      # The reference-customer e2e (tests/e2e) runs the full D5 cycle against
+      # compose-shaped Postgres — same credentials as docker-compose.yml.
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: bloom
+          POSTGRES_PASSWORD: bloom
+          POSTGRES_DB: bloom
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U bloom -d bloom"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://bloom:bloom@localhost:5432/bloom
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

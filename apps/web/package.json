@@ -11,8 +11,11 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@bloom/db": "workspace:*",
     "@bloom/interfaces": "workspace:*",
+    "@bloom/svc-approval": "workspace:*",
     "next": "^15.5.0",
+    "pg": "^8.13.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -20,6 +23,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "jsdom": "^26.0.0",

@@ -3,6 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./roster": "./src/roster.ts",
+    "./hermes": "./src/runtime/hermes.ts",
+    "./scan": "./src/runtime/scan.ts",
+    "./workflow-runner": "./src/runtime/workflow-runner.ts",
+    "./skills": "./src/skills/loader.ts",
+    "./tools": "./src/tools/mocks.ts",
+    "./testing": "./src/testing/harness.ts"
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/index.ts",

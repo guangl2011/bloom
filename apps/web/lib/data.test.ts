@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { listDecisions, resetDecisions } from './decision-store'
 import { decideApproval } from './approval-gateway'
 import { applyDecisions, loadApprovalQueue, loadCredits, loadLeadQuality, loadWorkflowRuns } from './data'
@@ -43,6 +43,12 @@ describe('applyDecisions', () => {
 })
 
 describe('approval queue end to end (mock path)', () => {
+  // CI exports DATABASE_URL for the Postgres-backed e2e suite; this suite
+  // pins the fixture/mock path explicitly.
+  beforeEach(() => {
+    vi.stubEnv('DATABASE_URL', '')
+  })
+
   it('a decision recorded through the gateway shows in the next queue load', async () => {
     const target = loadApprovalQueue([]).items.find((item) => item.status === 'pending')
     if (!target) throw new Error('fixture queue must contain a pending item')

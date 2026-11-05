@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { resetDecisions } from './decision-store'
 import { decideApproval } from './approval-gateway'
 
@@ -30,7 +30,13 @@ describe('decideApproval — service path', () => {
   })
 })
 
-describe('decideApproval — local mock path (no service URL)', () => {
+describe('decideApproval — local mock path (no service URL or database)', () => {
+  // CI exports DATABASE_URL for the Postgres-backed e2e suite; the mock path
+  // is selected only when neither the service URL nor the database is set.
+  beforeEach(() => {
+    vi.stubEnv('DATABASE_URL', '')
+  })
+
   it('records the decision without any external call', async () => {
     const fetchMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)

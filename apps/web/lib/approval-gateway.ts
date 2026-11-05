@@ -14,13 +14,14 @@
 import { AlreadyDecidedError, decide, UnknownApprovalError, type DecisionRecord } from './decision-store'
 import type { DecisionInput } from './decision-input'
 import { knownApprovalIds } from './data'
+import { decideInPostgres } from './data-pg'
 
 export interface ApprovalServiceConfig {
   /** e.g. http://approval:4102 — set once D3f's HTTP surface exists. */
   serviceUrl?: string
 }
 
-export type DecisionOutcome = DecisionRecord & { via: 'approval-service' | 'local-mock' }
+export type DecisionOutcome = DecisionRecord & { via: 'approval-service' | 'local-mock' | 'postgres' }
 
 function authHeaders(): HeadersInit {
   return { 'content-type': 'application/json' }
@@ -48,6 +49,12 @@ async function decideViaService(config: ApprovalServiceConfig, input: DecisionIn
 export async function decideApproval(input: DecisionInput, config: ApprovalServiceConfig): Promise<DecisionOutcome> {
   if (config.serviceUrl) {
     return decideViaService(config, input)
+  }
+  // Deployment path — DATABASE_URL points at the single-tenant database:
+  // decide through the same Postgres-backed, audit-logged gate the agents
+  // and the e2e cycle use.
+  if (process.env.DATABASE_URL) {
+    return decideInPostgres(input)
   }
   // Mock path — no service configured: validate the id against the known
   // queue, then record locally. An unknown id is a typed 404, never a
