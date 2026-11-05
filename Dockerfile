@@ -38,10 +38,12 @@ CMD ["node", "apps/web/server.js"]
 FROM deps AS service
 ENV NODE_ENV=production
 # Runtime needs the TS sources tsx executes: the service itself plus any
-# workspace packages its imports symlink into (@bloom/*, adapters).
+# workspace packages its imports symlink into (@bloom/*, adapters), and the
+# repo-level versioned skill assets the agents service loads at boot.
 COPY packages/ packages/
 COPY adapters/ adapters/
 COPY services/ services/
+COPY skills/ skills/
 EXPOSE 8080
 HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=12 \
   CMD node -e "fetch('http://127.0.0.1:'+(process.env.PORT||8080)+'/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
