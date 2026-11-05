@@ -1,0 +1,97 @@
+{
+  "company": {
+    "name": "Display Factory Wholesale",
+    "brand": "DFW Displays",
+    "website": "https://www.displayfactory.example",
+    "businessType": "manufacturer",
+    "hqAddress": "No. 88 Industrial Avenue, Yinzhou District, Ningbo, Zhejiang, China",
+    "branches": ["Ningbo HQ", "Guangzhou showroom"],
+    "contacts": "销售总监：销售总监 Li Wei (liwei@example.com)；海外市场部：Chen Mei (chenmei@example.com)",
+    "yearFounded": "2009",
+    "employeeCount": "180",
+    "revenueBand": "USD 20M - 50M",
+    "exportHistory": "12 years exporting; overseas sales are 60% of revenue",
+    "currentMarkets": ["Germany", "United States", "Australia"],
+    "salesChannels": ["Alibaba storefront", "Canton Fair", "overseas distributors"],
+    "systems": "Excel order tracker + WeCom; no CRM in use yet",
+    "painPoints": "Cannot tell which overseas buyers are actively purchasing now; rely on trade fairs for leads",
+    "growthGoals": "Enter the Nordics and Benelux in 2026; add 3 distributor partners; double inquiry volume"
+  },
+  "products": {
+    "categories": ["retail display racks", "supermarket shelving", "LED display stands"],
+    "hsCodes": ["9403.20", "9403.60", "8531.20"],
+    "certifications": ["CE", "UL", "FSC"],
+    "priceBand": "USD 40 - 900 per unit FOB Ningbo",
+    "moq": "50 units per SKU",
+    "customization": "OEM/ODM available; logo and color customization from 200 units",
+    "productionLocation": "Ningbo, Zhejiang (own factory 12,000 sqm)",
+    "logistics": "FOB Ningbo preferred; sea freight LCL/FCL; lead time 25-35 days",
+    "seasonality": "Peak orders March-May for Q4 retail season; holiday displays spike July-August",
+    "heroProducts": ["Modular pegboard display rack DB-200", "LED-lit counter stand DB-450"]
+  },
+  "markets": {
+    "industries": ["retail chains", "supermarket equipment distributors", "shopfitting wholesalers"],
+    "regions": ["Germany", "Netherlands", "Sweden", "Poland"],
+    "customerSize": "50-500 employees; EUR 10M-500M revenue",
+    "expansionPlan": "Nordics and Benelux first (2026 H1), then central Europe",
+    "decisionRoles": ["purchasing director", "category manager", "store development manager"],
+    "exclusions": ["auction resellers", "dropshipping-only stores", "companies under sanctions"],
+    "regionalAnalysisDimensions": ["competitor pricing posture", "retail format trends", "import regulations"]
+  },
+  "competitors": {
+    "list": ["Shelf Masters GmbH", "EuroDisplay SpA", "RackWave BV", "中山市汇泰货架"],
+    "differentiators": "We own the factory (no trading-company margin); CE+UL both covered",
+    "winLoss": "We win on price and customization; we lose when buyers need local installation services",
+    "monitoringFocus": ["new product launches", "pricing changes", "trade fair presence", "hiring spikes"],
+    "substitutes": ["local sheet-metal fabricators", "secondhand fixture resellers"]
+  },
+  "keywords": {
+    "monitor": ["supermarket shelving supplier", "retail display racks import", "shopfitting tender", "LED display stand wholesale", "store fixture distributor Europe", "pegboard display manufacturer"],
+    "brand": ["DFW Displays", "Display Factory Wholesale"],
+    "competitor": ["Shelf Masters", "EuroDisplay", "RackWave"],
+    "intent": ["looking for supplier", "request for quotation", "RFQ shelving", "sourcing display racks", "supplier needed"],
+    "exclusions": ["secondhand", "DIY", "home furniture"]
+  },
+  "signals": {
+    "channels": ["web", "news", "tenders", "trade shows"],
+    "scanCadence": "weekly",
+    "maxPerPeriod": "50",
+    "noiseExamples": "Generic retail news without purchasing intent; job ads for store staff",
+    "pushTo": "email digest to sales lead; flagged in monthly report"
+  },
+  "icp": {
+    "description": "European retail-equipment wholesalers and retail chains with 50-500 locations purchasing display fixtures in container volumes",
+    "criteriaA": "Buys display fixtures in 1+ containers per quarter (strong fit: direct factory buyer)",
+    "criteriaB": "Distributor purchasing LCL volumes or first-time container trial (moderate fit)",
+    "criteriaC": "Single-store retailers or buyers of finished shop interiors (weak fit)",
+    "weights": "purchase volume 40%, role seniority 30%, market match 20%, certifications 10%",
+    "sizeThresholds": "50-500 employees ideal; under 20 disqualify unless chain HQ",
+    "geographicLimits": "EU/EEA + UK + Switzerland only",
+    "monthlyQuota": "50",
+    "contactRoles": ["purchasing director", "head of procurement", "category manager"],
+    "leadFields": ["company name", "website", "country", "contact name", "role", "email", "match rationale", "tier"],
+    "disqualifiers": ["sanctioned countries", "auction/dropship resellers", "under 20 employees"],
+    "complianceLimits": "GDPR - no personal data beyond business contact roles; no scraped private emails"
+  },
+  "package": "lead_generation_pro",
+  "delivery": {
+    "reportCadence": "monthly",
+    "languages": "bilingual (中文 + English)",
+    "recipients": "Li Wei <liwei@example.com>; Chen Mei <chenmei@example.com>",
+    "outreachMode": "approval_required",
+    "dailySendCap": "100",
+    "acceptanceCriteria": "Every A-tier lead carries contact info + one-line match rationale; signals link to sources",
+    "notes": "Sales lead prefers WeChat for urgent approvals; email otherwise"
+  },
+  "crm": {
+    "system": "none currently; plan to adopt HubSpot in 2026"
+  },
+  "approvals": {
+    "contacts": "Li Wei <liwei@example.com> (primary); Chen Mei <chenmei@example.com> (backup)",
+    "channels": "email; WeChat for urgent",
+    "sla": "within 1 business day"
+  },
+  "ads": {
+    "accounts": "Google Ads account active since 2023; no LinkedIn account yet"
+  }
+}
