@@ -1,0 +1,8 @@
+"序号 No.","字段 Field","填写说明 Instructions","示例 Example","是否必填 Required","客户填写 Your Answer"
+"3.1","目标行业（按优先级）Target industries (ranked)","1 为最优先，逐行填写；不超过 5 个。","1. 食品加工 2. 化工 3. 水处理","必填 Required",""
+"3.2","重点区域（排名）Priority regions (ranked)","国家/州/都会区均可，按优先级排序。","1. 美国德州 2. 德国巴伐利亚 3. 越南","必填 Required",""
+"3.3","目标客户规模 Target customer size","如批发大客户 / 中型代理 / 终端工厂，附规模量化更佳。","年采购额 USD 1M+ 的进口批发商","选填 Optional",""
+"3.4","区域扩展计划 Expansion plan","未来 12 个月想新进的区域。","墨西哥、波兰","选填 Optional",""
+"3.5","客户决策角色 Decision roles","对方公司内谁拍板、谁影响：职位名称。","采购总监、进口经理、老板/总经理","选填 Optional",""
+"3.6","不服务的行业/客户 Exclusions","明确排除的行业、客户类型或区域。","不接个人零售客户；不做医疗器械","必填 Required",""
+"3.7","区域分析维度 Regional analysis dimensions","Lead Generation Pro 区域分析希望按什么维度（州/城市/展会/港口等）。","按美国州 + 前 20 大都会区","选填 Optional",""

@@ -31,3 +31,7 @@ docker-compose.override.yml
 
 # misc
 .vercel
+
+# python
+__pycache__/
+*.pyc
