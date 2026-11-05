@@ -1,0 +1,16 @@
+{
+  "name": "stage-advance-v1",
+  "agentId": "conversion",
+  "version": 1,
+  "description": "Advances CRM opportunities through approval-gated writes and attributes revenue to the originating signal.",
+  "promptFile": "prompt.md",
+  "inputSchema": {
+    "opportunities": { "type": "object[]", "description": "Opportunities to advance: opportunityId and nextStage", "required": true }
+  },
+  "outputSchema": {
+    "workspaceId": { "type": "string", "description": "Workspace the run belongs to", "required": true },
+    "written": { "type": "number", "description": "CRM writes completed after an approval decision", "required": true },
+    "rejected": { "type": "number", "description": "Advances the approver rejected", "required": true },
+    "rejectedIds": { "type": "string[]", "description": "Opportunity ids the approver rejected", "required": false }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "email-draft-v1",
+  "agentId": "outreach",
+  "version": 1,
+  "description": "Drafts personalized emails from the scored pool, queues them for approval, sends only approved ones up to the daily cap.",
+  "promptFile": "prompt.md",
+  "inputSchema": {
+    "leads": { "type": "object[]", "description": "Scored leads from the Lead agent: company, contact, score, tier", "required": true }
+  },
+  "outputSchema": {
+    "workspaceId": { "type": "string", "description": "Workspace the run belongs to", "required": true },
+    "drafts": { "type": "number", "description": "Drafts queued for review", "required": true },
+    "sent": { "type": "number", "description": "Emails sent after an approval decision, within the daily cap", "required": true },
+    "queued": { "type": "number", "description": "Approved but over the daily cap — send next period", "required": true },
+    "rejected": { "type": "number", "description": "Drafts the approver rejected", "required": true }
+  }
+}

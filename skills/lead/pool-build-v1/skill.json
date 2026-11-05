@@ -1,0 +1,13 @@
+{
+  "name": "pool-build-v1",
+  "agentId": "lead",
+  "version": 1,
+  "description": "Discovers, scores, and ranks leads to the monthly quota with per-lead rationale.",
+  "promptFile": "prompt.md",
+  "inputSchema": {},
+  "outputSchema": {
+    "workspaceId": { "type": "string", "description": "Workspace the run belongs to", "required": true },
+    "quota": { "type": "number", "description": "Monthly lead quota from the config", "required": true },
+    "leads": { "type": "object[]", "description": "Scored leads with company, contact, country, score, tier, rationale", "required": true }
+  }
+}

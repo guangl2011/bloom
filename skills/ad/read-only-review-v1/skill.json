@@ -1,0 +1,14 @@
+{
+  "name": "read-only-review-v1",
+  "agentId": "ad",
+  "version": 1,
+  "description": "Read-only Google/LinkedIn ad status review with campaign recommendations.",
+  "promptFile": "prompt.md",
+  "inputSchema": {
+    "platforms": { "type": "string[]", "description": "Platforms to review — defaults to the config's google/linkedin set", "required": false }
+  },
+  "outputSchema": {
+    "workspaceId": { "type": "string", "description": "Workspace the run belongs to", "required": true },
+    "recommendations": { "type": "object[]", "description": "Read-only recommendations, each stamped readOnly: true", "required": true }
+  }
+}
