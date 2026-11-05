@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+.next/
+out/
+coverage/
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# next
+next-env.d.ts
+
+# terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+
+# logs & OS
+*.log
+.DS_Store
+
+# docker
+docker-compose.override.yml
+
+# misc
+.vercel
