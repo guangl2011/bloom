@@ -1,10 +1,9 @@
-import { listDecisions } from '../../lib/decision-store'
-import { loadApprovalQueue } from '../../lib/data'
+import { approvalQueueForPage } from '../../lib/data'
 import { ApprovalQueue } from '../../components/ApprovalQueue'
 import { SourceNote } from '../../components/ui'
 
-export default function ApprovalsPage() {
-  const { items, source } = loadApprovalQueue(listDecisions())
+export default async function ApprovalsPage() {
+  const { items, source } = await approvalQueueForPage()
   return (
     <main data-view="approvals">
       <div className="page-header">

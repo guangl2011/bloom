@@ -9,6 +9,8 @@
  */
 import type { DashboardData, DataSource, WorkflowRunView, ApprovalItemView } from './view-models'
 import { SAMPLE_APPROVALS, SAMPLE_CREDITS, SAMPLE_LEADS, SAMPLE_RUNS } from './fixtures'
+import { listDecisions } from './decision-store'
+import { liveApprovalQueue, liveCredits, liveWorkflowRuns } from './data-pg'
 
 export interface DashboardSnapshot {
   data: DashboardData
@@ -18,6 +20,19 @@ export interface DashboardSnapshot {
 /** Runs history — service-backed once D3b lands; fixture path today. */
 export function loadWorkflowRuns(): { runs: WorkflowRunView[]; source: DataSource } {
   return { runs: SAMPLE_RUNS, source: 'sample' }
+}
+
+/**
+ * Page-level snapshots — the fixture seam above stays synchronous and
+ * unit-testable; these resolve the live Postgres readers when the deployment
+ * sets DATABASE_URL (the swap point documented in the module header).
+ * Failures on the live path surface as page errors — an ops dashboard that
+ * silently showed samples while the database is down would lie to the
+ * operator.
+ */
+export async function workflowRunsForPage(): Promise<{ runs: WorkflowRunView[]; source: DataSource }> {
+  if (process.env.DATABASE_URL) return liveWorkflowRuns()
+  return loadWorkflowRuns()
 }
 
 /**
@@ -77,6 +92,19 @@ export function applyDecisions(
 /** Credits view — the credits service owns the ledger; fixture until wired. */
 export function loadCredits(): { credits: DashboardData['credits']; source: DataSource } {
   return { credits: SAMPLE_CREDITS, source: 'sample' }
+}
+
+export async function approvalQueueForPage(): Promise<{
+  items: ApprovalItemView[]
+  source: DataSource
+}> {
+  if (process.env.DATABASE_URL) return liveApprovalQueue()
+  return loadApprovalQueue(listDecisions())
+}
+
+export async function creditsForPage(): Promise<{ credits: DashboardData['credits']; source: DataSource }> {
+  if (process.env.DATABASE_URL) return liveCredits()
+  return loadCredits()
 }
 
 /** Lead quality snapshot — internal_v1 scores with engine attribution. */
