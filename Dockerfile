@@ -14,10 +14,12 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY apps/web/package.json apps/web/
 COPY packages/interfaces/package.json packages/interfaces/
 COPY packages/service-kit/package.json packages/service-kit/
+COPY packages/db/package.json packages/db/
 COPY adapters/adapter-scan-engine/package.json adapters/adapter-scan-engine/
 COPY services/workflow/package.json services/workflow/
 COPY services/approval/package.json services/approval/
 COPY services/agents/package.json services/agents/
+COPY services/credits/package.json services/credits/
 RUN pnpm install --frozen-lockfile
 
 FROM deps AS build
