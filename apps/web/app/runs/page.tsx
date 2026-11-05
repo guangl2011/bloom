@@ -1,0 +1,17 @@
+import { loadWorkflowRuns } from '../../lib/data'
+import { RunsView } from '../../components/RunsView'
+import { SourceNote } from '../../components/ui'
+
+export default function RunsPage() {
+  const { runs, source } = loadWorkflowRuns()
+  return (
+    <main data-view="runs">
+      <div className="page-header">
+        <h2>Workflow runs</h2>
+        <p className="lede">status · history · retries — every run traceable through audit events</p>
+      </div>
+      <SourceNote source={source} />
+      <RunsView runs={runs} />
+    </main>
+  )
+}

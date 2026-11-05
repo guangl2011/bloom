@@ -12,7 +12,7 @@
     "build": "pnpm -r build",
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
-    "test": "vitest run",
+    "test": "vitest run && pnpm --filter @bloom/web test",
     "compose:up": "docker compose up -d --wait",
     "compose:down": "docker compose down -v",
     "smoke": "bash tests/e2e/smoke.sh"
