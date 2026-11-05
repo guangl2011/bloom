@@ -21,6 +21,7 @@ COPY services/workflow/package.json services/workflow/
 COPY services/approval/package.json services/approval/
 COPY services/agents/package.json services/agents/
 COPY services/credits/package.json services/credits/
+COPY services/config/package.json services/config/
 RUN pnpm install --frozen-lockfile
 
 FROM deps AS build
