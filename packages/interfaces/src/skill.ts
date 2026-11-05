@@ -12,7 +12,7 @@ export interface SkillDefinition {
   /** Monotonic per-skill version — bumped on prompt/schema changes, never edited silently. */
   readonly version: number
   readonly description: string
-  /** The prompt body, loaded from the skill's SKILL.md. */
+  /** The prompt body, loaded from the skill's manifest-declared prompt file. */
   readonly prompt: string
   readonly inputSchema: SchemaSpec
   readonly outputSchema: SchemaSpec

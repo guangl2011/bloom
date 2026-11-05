@@ -1,0 +1,13 @@
+{
+  "name": "scoring-tuning-v1",
+  "agentId": "icp",
+  "version": 1,
+  "description": "Turns the customer's ICP criteria (intake sheet 06) into internal_v1 scoring weights.",
+  "promptFile": "prompt.md",
+  "inputSchema": {},
+  "outputSchema": {
+    "workspaceId": { "type": "string", "description": "Workspace the run belongs to", "required": true },
+    "model": { "type": "string", "description": "Scoring model id (internal_v1)", "required": true },
+    "weights": { "type": "object", "description": "Normalized per-criterion weights for the internal scoring model", "required": true }
+  }
+}

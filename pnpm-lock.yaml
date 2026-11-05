@@ -239,6 +239,9 @@ importers:
 
   services/agents:
     dependencies:
+      '@bloom/adapter-scan-engine':
+        specifier: workspace:*
+        version: link:../../adapters/adapter-scan-engine
       '@bloom/interfaces':
         specifier: workspace:*
         version: link:../../packages/interfaces

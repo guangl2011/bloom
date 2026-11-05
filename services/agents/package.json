@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@bloom/adapter-scan-engine": "workspace:*",
     "@bloom/interfaces": "workspace:*",
     "@bloom/service-kit": "workspace:*",
     "tsx": "^4.19.0"

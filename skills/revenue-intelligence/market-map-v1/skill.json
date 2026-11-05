@@ -1,0 +1,15 @@
+{
+  "name": "market-map-v1",
+  "agentId": "revenue-intelligence",
+  "version": 1,
+  "description": "Market map + purchase-signal scan for the monthly brief (module A) and quarterly trends (module C).",
+  "promptFile": "prompt.md",
+  "inputSchema": {
+    "bulk": { "type": "boolean", "description": "Request a scan beyond the scheduled purchase-signal scope — crosses the bulk_scan approval gate", "required": false }
+  },
+  "outputSchema": {
+    "workspaceId": { "type": "string", "description": "Workspace the run belongs to", "required": true },
+    "marketMap": { "type": "object", "description": "Regions and keyword clusters compiled from the customer config", "required": true },
+    "signals": { "type": "object[]", "description": "Purchase signals capped at maxSignalsPerPeriod, each carrying workspace_id", "required": true }
+  }
+}
