@@ -1,0 +1,83 @@
+# Bloom v1.0 single-tenant stack (scaffold): web + services + Postgres/pgvector.
+# Every service exposes /health; `docker compose up -d --wait` gates on all of them.
+
+name: bloom
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: bloom
+      POSTGRES_PASSWORD: bloom
+      POSTGRES_DB: bloom
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bloom -d bloom"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  workflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: service
+    command: ["pnpm", "--filter", "@bloom/svc-workflow", "start"]
+    environment:
+      PORT: "4101"
+      DATABASE_URL: postgres://bloom:bloom@postgres:5432/bloom
+    ports:
+      - "4101:4101"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  approval:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: service
+    command: ["pnpm", "--filter", "@bloom/svc-approval", "start"]
+    environment:
+      PORT: "4102"
+      DATABASE_URL: postgres://bloom:bloom@postgres:5432/bloom
+    ports:
+      - "4102:4102"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  agents:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: service
+    command: ["pnpm", "--filter", "@bloom/svc-agents", "start"]
+    environment:
+      PORT: "4103"
+      DATABASE_URL: postgres://bloom:bloom@postgres:5432/bloom
+    ports:
+      - "4103:4103"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web
+    environment:
+      PORT: "3000"
+      DATABASE_URL: postgres://bloom:bloom@postgres:5432/bloom
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:

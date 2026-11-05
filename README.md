@@ -9,8 +9,35 @@ monitoring, lead discovery and scoring, and approval-gated outreach.
 - **v2.0** upgrades the agent runtime (Mastra behind AgentInterface) and repackages the engine
   as a multi-tenant subscription SaaS.
 
-The platform spec (v3.1) lives at `docs/spec/` and the product charter at `docs/CHARTER.md`
-(landing in companion PRs).
+Platform spec v3.1: `docs/spec/` · Charter: `docs/CHARTER.md` · Intake template: `templates/`
+(all landing in companion PRs).
 
-Status: repository bootstrap — the monorepo scaffold (apps/services/adapters/packages per
-PRD §9) lands on `release/v1.0-pilots`.
+## Quickstart
+
+```bash
+pnpm install --frozen-lockfile   # pnpm 12.16.1, Node >= 22
+pnpm lint && pnpm typecheck && pnpm test
+docker compose up -d --wait      # web + services + Postgres/pgvector
+bash tests/e2e/smoke.sh
+docker compose down -v
+```
+
+Web dashboard: http://localhost:3000 · workflow :4101 · approval :4102 · agents :4103.
+
+## Layout
+
+| Path | Contents |
+| --- | --- |
+| `apps/web` | Next.js ops dashboard (placeholder) |
+| `services/` | `workflow`, `approval`, `agents` (six-agent roster behind AgentInterface) |
+| `adapters/` | `adapter-scan-engine` — Obvious primary, Deepline fallback behind ScanEngineInterface |
+| `packages/` | `interfaces` (Agent/Workflow/Tool/Approval), `service-kit` (health server) |
+| `skills/` | Versioned per-agent prompts and skills |
+| `infra/` | Terraform + deploy adapter (D4) |
+| `tests/` | e2e smoke + fixtures (reference-customer fixtures land with D5) |
+
+## CI
+
+PR-blocking checks: `lint` (ESLint) · `typecheck` (tsc, per package) · `test` (Vitest) ·
+`gitleaks` (secret scan) · `compose-smoke` (builds the stack, boots it, asserts every health
+endpoint). See `.github/workflows/ci.yml`.
