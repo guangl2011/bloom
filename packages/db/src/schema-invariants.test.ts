@@ -19,11 +19,12 @@ interface TableDef {
   columns: Set<string>
 }
 
-/** Strips `--` comments so commented-out DDL is never treated as active. */
+/** Strips `--` comments (full-line AND trailing) so commented-out DDL is
+ * never treated as active and inline annotations cannot corrupt parsing. */
 function stripComments(sql: string): string {
   return sql
     .split('\n')
-    .filter((line) => !line.trim().startsWith('--'))
+    .map((line) => line.replace(/--.*$/, ''))
     .join('\n')
 }
 

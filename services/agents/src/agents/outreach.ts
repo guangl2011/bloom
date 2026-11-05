@@ -118,8 +118,12 @@ export function createOutreachAgent(deps: OutreachDeps): AgentInterface {
             to: lead.contact,
             subject: draft.subject,
             body: draft.body,
+            // The queued draft this send executes — the adapter verifies the
+            // send matches the draft (approve what you send).
+            draftId: String(draftId),
             approvalDecisionId: decision.decisionId,
-            approver: decision.approver,
+            // No caller `approver`: the real adapter takes the approver from
+            // the verified gate decision, never from the caller's hands.
           },
           toolContext(context),
         )

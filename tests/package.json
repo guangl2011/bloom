@@ -7,13 +7,21 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@bloom/adapter-crm": "workspace:*",
+    "@bloom/adapter-email": "workspace:*",
     "@bloom/adapter-scan-engine": "workspace:*",
+    "@bloom/db": "workspace:*",
     "@bloom/interfaces": "workspace:*",
     "@bloom/svc-agents": "workspace:*",
-    "@bloom/svc-config": "workspace:*"
+    "@bloom/svc-approval": "workspace:*",
+    "@bloom/svc-config": "workspace:*",
+    "@bloom/svc-credits": "workspace:*",
+    "@bloom/svc-workflow": "workspace:*",
+    "pg": "^8.13.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.0",
     "typescript": "^5.6.0",
     "vitest": "^3.0.0"
   }

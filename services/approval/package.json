@@ -6,7 +6,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./gate": "./src/gate.ts",
-    "./zero-send": "./src/zero-send.ts"
+    "./zero-send": "./src/zero-send.ts",
+    "./store-pg": "./src/store-pg.ts"
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -15,6 +16,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@bloom/db": "workspace:*",
     "@bloom/interfaces": "workspace:*",
     "@bloom/service-kit": "workspace:*",
     "tsx": "^4.19.0"

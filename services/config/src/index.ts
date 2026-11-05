@@ -39,3 +39,4 @@ export { ConfigVersionError, FileConfigVersionStore, sha256 } from './versioning
 export type { ConfigVersionRecord, ConfigVersionStore } from './versioning.js'
 export { asText, asPositiveInt, approvalGatedMode, cronFromCadence, extractEmails, parseLanguages } from './transforms.js'
 export type { ReportLanguage } from './transforms.js'
+export { runtimeConfigFromCompiled } from './runtime-config.js'

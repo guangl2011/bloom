@@ -57,11 +57,11 @@ export function createMockLeadSourceTool(candidates: readonly MockCandidate[]): 
       return { ok: true as const, data: { candidates } }
     },
   })
-  return Object.assign(tool, {
-    get callCount(): number {
-      return calls
-    },
-  })
+  const counted = tool as ToolInterface & { readonly callCount: number }
+  // Object.assign would snapshot the getter's value (always 0) — define a real
+  // accessor so the counter stays live after executes.
+  Object.defineProperty(counted, 'callCount', { get: () => calls, enumerable: true })
+  return counted
 }
 
 export interface QueuedDraft {
@@ -74,8 +74,9 @@ export interface QueuedDraft {
 export interface SentEmail {
   readonly to: string
   readonly subject: string
+  /** The queued draft the send executed — mirrors the real email adapter. */
+  readonly draftId: string
   readonly approvalDecisionId: string
-  readonly approver: string
   readonly messageId: string
 }
 
@@ -112,17 +113,17 @@ export function createMockEmailAdapter(): MockEmailAdapter {
   })
   const send = defineTool({
     name: 'email.send',
-    description: 'Send an email — requires the audit id of a recorded human approval decision.',
+    description: 'Send an email — requires the queued draft id and the audit id of a recorded human approval decision.',
     inputSchema: {
       to: { type: 'string', description: 'Recipient contact email', required: true },
       subject: { type: 'string', description: 'Subject line', required: true },
       body: { type: 'string', description: 'Body', required: true },
+      draftId: { type: 'string', description: 'Queued draft id the send executes', required: true },
       approvalDecisionId: {
         type: 'string',
         description: 'Audit id of the human approval decision — sends without one are structurally impossible',
         required: true,
       },
-      approver: { type: 'string', description: 'Named approver from the decision', required: true },
     },
     outputSchema: {
       messageId: { type: 'string', description: 'Sent message id', required: true },
@@ -131,14 +132,14 @@ export function createMockEmailAdapter(): MockEmailAdapter {
       const record = input as {
         to: string
         subject: string
+        draftId: string
         approvalDecisionId: string
-        approver: string
       }
       const message: SentEmail = {
         to: record.to,
         subject: record.subject,
+        draftId: record.draftId,
         approvalDecisionId: record.approvalDecisionId,
-        approver: record.approver,
         messageId: `msg-${sent.length + 1}`,
       }
       sent.push(message)
@@ -150,9 +151,8 @@ export function createMockEmailAdapter(): MockEmailAdapter {
 
 export interface CrmWrite {
   readonly opportunityId: string
-  readonly stage: string
+  readonly nextStage: string
   readonly approvalDecisionId: string
-  readonly approver: string
   readonly crmRecordId: string
 }
 
@@ -170,9 +170,8 @@ export function createMockCrmAdapter(): MockCrmAdapter {
     description: 'Write a CRM record — requires the audit id of a recorded human approval decision.',
     inputSchema: {
       opportunityId: { type: 'string', description: 'CRM opportunity id', required: true },
-      stage: { type: 'string', description: 'Stage to advance to', required: true },
+      nextStage: { type: 'string', description: 'Stage to advance to (real adapter field name)', required: true },
       approvalDecisionId: { type: 'string', description: 'Audit id of the human approval decision', required: true },
-      approver: { type: 'string', description: 'Named approver from the decision', required: true },
     },
     outputSchema: {
       crmRecordId: { type: 'string', description: 'Written CRM record id', required: true },
@@ -180,9 +179,8 @@ export function createMockCrmAdapter(): MockCrmAdapter {
     async execute(input) {
       const record = input as {
         opportunityId: string
-        stage: string
+        nextStage: string
         approvalDecisionId: string
-        approver: string
       }
       const written: CrmWrite = {
         ...record,

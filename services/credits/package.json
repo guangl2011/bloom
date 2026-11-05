@@ -5,7 +5,9 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./credits": "./src/credits.ts"
+    "./credits": "./src/credits.ts",
+    "./ledger": "./src/ledger.ts",
+    "./ledger-pg": "./src/ledger-pg.ts"
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",

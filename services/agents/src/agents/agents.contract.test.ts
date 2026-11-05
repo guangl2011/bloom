@@ -199,7 +199,9 @@ describe('outreach', () => {
     })
     for (const sent of email.sent) {
       expect(sent.approvalDecisionId).toMatch(/^dec-/)
-      expect(sent.approver).toBe('fixture-approver')
+      // The send executes the queued draft — the real adapter rejects a send
+      // that doesn't match its draft, so the mock records the same binding.
+      expect(sent.draftId).toMatch(/^draft-/)
     }
   })
 

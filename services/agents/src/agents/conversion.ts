@@ -67,9 +67,13 @@ export function createConversionAgent(deps: ConversionDeps): AgentInterface {
         const result = await deps.crm.write.execute(
           {
             opportunityId: opportunity.opportunityId,
-            stage: opportunity.nextStage,
+            // Field name matches the real CRM-write adapter's schema and its
+            // gate binding ({ opportunityId, nextStage }); `stage` would
+            // authorize a binding mismatch and refuse the write.
+            nextStage: opportunity.nextStage,
             approvalDecisionId: decision.decisionId,
-            approver: decision.approver,
+            // No caller `approver` — the adapter takes it from the verified
+            // gate decision (same rule as the email adapter).
           },
           toolContext(context),
         )

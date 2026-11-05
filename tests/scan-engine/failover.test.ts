@@ -10,7 +10,7 @@ import {
   type ScanEngineId,
   type ScanEngineWithDiagnostics,
 } from '@bloom/adapter-scan-engine'
-import { composeScanEngine, type ScanEngineRegistry } from '@bloom/svc-agents/src/runtime/scan'
+import { composeScanEngine, type ScanEngineRegistry } from '@bloom/svc-agents/scan'
 import {
   compileReferenceWorkflowYaml,
   trackTransport,
