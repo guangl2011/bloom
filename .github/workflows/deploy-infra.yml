@@ -1,0 +1,74 @@
+name: deploy-infra
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'release/**'
+
+concurrency:
+  group: deploy-infra-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Spec D4 acceptance: terraform plan against a test fixture is green in CI,
+  # with NO real apply — the first cloud deploy is credential-gated (secrets flow).
+  terraform-fixture-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Terraform format check
+        run: terraform -chdir=infra/terraform fmt -check -recursive .
+
+      - name: Terraform init (no backend)
+        run: terraform -chdir=infra/terraform init -backend=false -input=false
+
+      - name: Terraform validate
+        run: terraform -chdir=infra/terraform validate
+
+      - name: Generate throwaway fixture credentials (runtime-generated, never committed)
+        run: bash tests/fixtures/deploy/gen-fixture-credentials.sh /tmp/fixture-creds.json
+
+      - name: Terraform plan against reference fixture (offline, no refresh)
+        run: |
+          export GOOGLE_CREDENTIALS="$(cat /tmp/fixture-creds.json)"
+          terraform -chdir=infra/terraform plan -input=false -refresh=false \
+            -var-file="$GITHUB_WORKSPACE/tests/fixtures/deploy/reference.tfvars" \
+            -out=/tmp/reference-plan.tfplan
+
+      - name: Assert plan composition (4 services, Cloud SQL, secrets, audit bucket)
+        run: |
+          terraform -chdir=infra/terraform show -json /tmp/reference-plan.tfplan > /tmp/plan.json
+          python3 - <<'PY'
+          import json
+          from collections import Counter
+
+          plan = json.load(open('/tmp/plan.json'))
+          counts = Counter(r['type'] for r in plan['resource_changes'])
+          assert counts['google_cloud_run_v2_service'] == 4, counts
+          assert counts['google_sql_database_instance'] == 1, counts
+          assert counts['google_secret_manager_secret'] == 4, counts
+          assert counts['google_logging_project_bucket_config'] == 1, counts
+          assert counts['google_logging_project_sink'] == 1, counts
+          print('fixture plan composition OK:', dict(counts))
+          PY
+
+  # Spec D4 acceptance: the compose-based local equivalent boots, isolated per
+  # customer via COMPOSE_PROJECT_NAME.
+  compose-per-customer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Boot per-customer compose stack (reference customer)
+        run: bash infra/compose-local.sh reference
+
+      - name: Tear down
+        if: always()
+        run: bash infra/compose-local.sh reference --down
