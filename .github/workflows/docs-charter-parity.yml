@@ -1,0 +1,27 @@
+name: docs-charter-parity
+
+on:
+  pull_request:
+    paths:
+      - "docs/CHARTER.md"
+      - "docs/exports/CHARTER.artifact.md"
+      - "scripts/check-docs-parity.sh"
+  push:
+    branches:
+      - "release/*"
+    paths:
+      - "docs/CHARTER.md"
+      - "docs/exports/CHARTER.artifact.md"
+      - "scripts/check-docs-parity.sh"
+
+jobs:
+  charter-parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Charter parity + content checks
+        env:
+          # GitHub runners have no Obvious credentials: CI checks parity against
+          # the committed artifact export; the live check runs in the workspace.
+          CHARTER_PARITY_SKIP_LIVE: "1"
+        run: bash scripts/check-docs-parity.sh
