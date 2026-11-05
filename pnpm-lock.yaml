@@ -166,6 +166,18 @@ importers:
 
   .:
     devDependencies:
+      '@bloom/adapter-crm':
+        specifier: workspace:*
+        version: link:adapters/adapter-crm
+      '@bloom/adapter-email':
+        specifier: workspace:*
+        version: link:adapters/adapter-email
+      '@bloom/interfaces':
+        specifier: workspace:*
+        version: link:packages/interfaces
+      '@bloom/svc-approval':
+        specifier: workspace:*
+        version: link:services/approval
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.5
