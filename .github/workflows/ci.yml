@@ -69,6 +69,8 @@ jobs:
         run: docker compose up -d --wait --wait-timeout 240
       - name: Smoke-test health endpoints
         run: bash tests/e2e/smoke.sh
+      - name: Smoke-test dashboard views
+        run: bash tests/e2e/dashboard-smoke.sh
       - name: Dump compose logs on failure
         if: failure()
         run: docker compose logs --tail=200
