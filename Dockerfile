@@ -17,6 +17,7 @@ COPY packages/service-kit/package.json packages/service-kit/
 COPY packages/db/package.json packages/db/
 COPY adapters/adapter-scan-engine/package.json adapters/adapter-scan-engine/
 COPY adapters/adapter-deploy/package.json adapters/adapter-deploy/
+COPY adapters/adapter-crm/package.json adapters/adapter-crm/
 COPY adapters/adapter-email/package.json adapters/adapter-email/
 COPY services/workflow/package.json services/workflow/
 COPY services/approval/package.json services/approval/
