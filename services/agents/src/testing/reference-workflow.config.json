@@ -1,0 +1,38 @@
+{
+  "workspaceId": "ws_display-factory",
+  "customer": "display-factory-wholesale",
+  "package": "lead_generation_pro",
+  "marketIntel": {
+    "schedule": "0 6 1 * *",
+    "keywords": ["custom exhibition stands", "modular trade show booths"],
+    "regions": ["North America", "Western Europe"]
+  },
+  "purchaseSignals": {
+    "schedule": "0 6 * * 1",
+    "engine": { "primary": "obvious", "fallback": "deepline" },
+    "maxSignalsPerPeriod": 3
+  },
+  "icp": {
+    "criteria": [
+      { "id": "product_fit", "description": "Buys or specifies display and booth hardware", "weight": 0.5 },
+      { "id": "growth_signal", "description": "Expansion, event calendar, or hiring signals", "weight": 0.3 },
+      { "id": "decision_chain", "description": "Owner or marketing decision-maker reachable", "weight": 0.2 }
+    ]
+  },
+  "leadScoring": {
+    "model": "internal_v1",
+    "monthlyQuota": 50,
+    "tiers": {
+      "A": { "min": 0.8 },
+      "B": { "min": 0.5, "max": 0.8 },
+      "C": { "min": 0.3, "max": 0.5 }
+    }
+  },
+  "outreach": {
+    "channels": ["email"],
+    "mode": "approval_gated_send",
+    "dailySendCap": 2
+  },
+  "ads": { "platforms": ["google", "linkedin"] },
+  "approval": { "approvers": ["Ops Lead"] }
+}
