@@ -117,6 +117,7 @@ function must<T>(value: T | undefined, what: string): T {
 // --- stack (constructed in main once the executor exists) ---
 
 interface LiveStack {
+  store: PgApprovalStore
   gate: ApprovalGate
   email: ReturnType<typeof createEmailAdapter>
   stubProvider: ReturnType<typeof createStubEmailProvider>
@@ -363,7 +364,8 @@ async function post(): Promise<void> {
   assert.equal(savedRuns.length, 8, 'eight persisted workflow runs')
   const audit = await stack.gate.listAudit(WORKSPACE)
   const events = audit.map((entry) => entry.event)
-  for (const expected of ['gate.requested', 'gate.decision', 'gate.authorize.allowed', 'gate.authorize.refused']) {
+  const requiredEvents: (typeof events)[number][] = ['gate.requested', 'gate.decision', 'gate.authorize.allowed', 'gate.authorize.refused']
+  for (const expected of requiredEvents) {
     assert(events.includes(expected), `audit trail must contain ${expected}`)
   }
   const reconciliation = await stack.ledger.reconcile(WORKSPACE)
