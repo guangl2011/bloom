@@ -2,6 +2,10 @@ import { creditsForPage } from '../../lib/data'
 import { CreditsView } from '../../components/CreditsView'
 import { SourceNote } from '../../components/ui'
 
+// Live path: the ledger view must read the deployment database at request
+// time, not the fixture snapshot baked in at build time (live-stack validation).
+export const dynamic = 'force-dynamic'
+
 export default async function CreditsPage() {
   const { credits, source } = await creditsForPage()
   return (
