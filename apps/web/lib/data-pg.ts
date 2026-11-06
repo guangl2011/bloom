@@ -60,19 +60,18 @@ function iso(value: Date | string): string {
 /**
  * Workspace scope for this deployment. v1.0 is single-tenant: pin with
  * DASHBOARD_WORKSPACE, otherwise show the most recent workspace that has
- * runs (so the dashboard follows the latest reference cycle).
+ * runs (so the dashboard follows the latest reference cycle). A freshly
+ * deployed, migrated-but-empty database is a legitimate state — the callers
+ * render honest empty views, so this returns null instead of throwing.
  */
-async function workspaceScope(exec: SqlExecutor): Promise<string> {
+async function workspaceScope(exec: SqlExecutor): Promise<string | null> {
   const pinned = process.env.DASHBOARD_WORKSPACE
   if (pinned) return pinned
   const result = await exec(
     `SELECT workspace_id FROM workflow_runs WHERE deleted_at IS NULL ORDER BY started_at DESC LIMIT 1`,
   )
   const row = result.rows[0] as { workspace_id: string } | undefined
-  if (!row) {
-    throw new Error('no workflow runs in the deployment database yet — run the reference-customer cycle first, or pin DASHBOARD_WORKSPACE')
-  }
-  return row.workspace_id
+  return row?.workspace_id ?? null
 }
 
 // ── Runs ────────────────────────────────────────────────────────────────────
@@ -107,6 +106,7 @@ function runStatus(status: string, attempt: number): WorkflowRunStatus {
 export async function liveWorkflowRuns(): Promise<{ runs: WorkflowRunView[]; source: DataSource }> {
   const exec = executor()
   const workspaceId = await workspaceScope(exec)
+  if (workspaceId === null) return { runs: [], source: 'service' }
   const result = await exec(
     `SELECT run_id, workflow_id, workspace_id, trigger_payload, attempt, status, started_at, finished_at, steps
      FROM workflow_runs
@@ -169,6 +169,7 @@ export async function liveApprovalQueue(): Promise<{ items: ApprovalItemView[]; 
   const exec = executor()
   const store = new PgApprovalStore(exec)
   const workspaceId = await workspaceScope(exec)
+  if (workspaceId === null) return { items: [], source: 'service' }
 
   const requests = (await store.allRequests()).filter((request) => request.workspaceId === workspaceId)
   const items = await Promise.all(
@@ -204,6 +205,18 @@ export async function liveApprovalQueue(): Promise<{ items: ApprovalItemView[]; 
 export async function liveCredits(): Promise<{ credits: CreditsView; source: DataSource }> {
   const exec = executor()
   const workspaceId = await workspaceScope(exec)
+  if (workspaceId === null) {
+    return {
+      credits: {
+        workspaceId: '',
+        balanceCredits: 0,
+        periodLabel: new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' }),
+        breakdown: [],
+        transactions: [],
+      },
+      source: 'service',
+    }
+  }
 
   const [balanceResult, breakdownResult, transactionsResult] = await Promise.all([
     exec(
