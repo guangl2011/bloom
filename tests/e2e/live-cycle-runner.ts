@@ -22,7 +22,7 @@
  *          print the cycle summary.
  */
 
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import process from 'node:process'
 import assert from 'node:assert/strict'
@@ -43,7 +43,21 @@ import type { AgentContext, AgentId, ScanEngineId, ScanEngineInterface, ScanQuer
 const REPO_ROOT = process.cwd()
 const DATABASE_URL = process.env.DATABASE_URL ?? 'postgres://bloom:bloom@localhost:5432/bloom'
 const DASHBOARD_URL = process.env.BLOOM_DASHBOARD_URL ?? 'http://127.0.0.1:3000'
-const WORKSPACE = process.env.BLOOM_LIVE_WORKSPACE ?? `dfw-live-${Date.now()}`
+/**
+ * The workspace must be stable across the two runner invocations (pre and
+ * post are separate processes): reuse BLOOM_LIVE_WORKSPACE when set, then
+ * the workspace the pre phase recorded in its snapshot file.
+ */
+function resolveWorkspace(): string {
+  if (process.env.BLOOM_LIVE_WORKSPACE) return process.env.BLOOM_LIVE_WORKSPACE
+  const preFile = '/tmp/bloom-live-pre.json'
+  if (existsSync(preFile)) {
+    const pre = JSON.parse(readFileSync(preFile, 'utf8')) as { workspace: string }
+    if (pre.workspace) return pre.workspace
+  }
+  return `dfw-live-${Date.now()}`
+}
+const WORKSPACE = resolveWorkspace()
 const phase = process.argv[2] ?? 'pre'
 assert(phase === 'pre' || phase === 'post', 'usage: live-cycle-runner.ts <pre|post>')
 
